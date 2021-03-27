@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,8 +11,8 @@ namespace DataProtection.Web.Controllers
     public class ProductsController : Controller
     {
         private readonly AppDbContext _context;
-        private readonly IDataProtector _dataProtector;
-        private readonly IDataProtector _dataProtector2;
+        private readonly IDataProtector _dataProtector; //Veriyi şifrelemek için kullanırız.
+        private readonly ITimeLimitedDataProtector _timeLimitedDataProtector; //Şifrelediğimiz veriye ömür biçmek için kullanırız.
 
         public ProductsController(AppDbContext context, IDataProtectionProvider dataProtectionProvider) //IDataProtectionProvider ile IDataProtector'ı dolduracağız.
         {
@@ -22,25 +23,40 @@ namespace DataProtection.Web.Controllers
              * Farklı bir controller içerisinde de DataProtector kullanabileceğimizden ötürü, bunları birbirinden ayırmak mahiyetinde isimlendirme yapıyoruz.
              */
             _dataProtector = dataProtectionProvider.CreateProtector(nameof(ProductsController));
-            _dataProtector2 = dataProtectionProvider.CreateProtector($"{nameof(ProductsController)}2");
+            _timeLimitedDataProtector = _dataProtector.ToTimeLimitedDataProtector(); //Şifrelediğimiz veriye ömür biçmek için kullanırız.
         }
 
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Products.ToListAsync());
+            var products = await _context.Products.ToListAsync();
+
+            /*
+             * Protect: Koru
+             * UnProtect: Korumayı Kaldır
+             */
+            products.ForEach((product) =>
+            {
+                //product.EncryptedId = _dataProtector.Protect($"{product.Id}"); //Zaman bağımsız şifreleme
+                product.EncryptedId = _timeLimitedDataProtector.Protect($"{product.Id}", TimeSpan.FromSeconds(20)); //Zaman bağımlı şifreleme (Tarih, Saat, Dakika, Saniye)
+            });
+
+            return View(products);
         }
 
         // GET: Products/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string id)
         {
-            if (id == null)
+            if (string.IsNullOrEmpty(id))
             {
                 return NotFound();
             }
 
+            // int decryptedId = int.Parse(_dataProtector.Unprotect(id)); //Zaman bağımsız şifre çözme işlemi
+            int decryptedId = int.Parse(_timeLimitedDataProtector.Unprotect(id)); //Zaman bağımlı şifre çözme
+
             var product = await _context.Products
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == decryptedId);
             if (product == null)
             {
                 return NotFound();
