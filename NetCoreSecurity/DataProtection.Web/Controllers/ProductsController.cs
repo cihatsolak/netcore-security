@@ -1,21 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using DataProtection.Web.Models;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using DataProtection.Web.Models;
 
 namespace DataProtection.Web.Controllers
 {
     public class ProductsController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IDataProtector _dataProtector;
+        private readonly IDataProtector _dataProtector2;
 
-        public ProductsController(AppDbContext context)
+        public ProductsController(AppDbContext context, IDataProtectionProvider dataProtectionProvider) //IDataProtectionProvider ile IDataProtector'ı dolduracağız.
         {
             _context = context;
+
+            /* 
+             * CreateProtector içerisinde vereceğim isim Unique'dir. DataProtector'ları birbirinden ayırmak için kullanırız.
+             * Farklı bir controller içerisinde de DataProtector kullanabileceğimizden ötürü, bunları birbirinden ayırmak mahiyetinde isimlendirme yapıyoruz.
+             */
+            _dataProtector = dataProtectionProvider.CreateProtector(nameof(ProductsController));
+            _dataProtector2 = dataProtectionProvider.CreateProtector($"{nameof(ProductsController)}2");
         }
 
         // GET: Products
