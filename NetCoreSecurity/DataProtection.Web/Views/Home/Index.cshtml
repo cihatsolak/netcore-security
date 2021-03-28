@@ -2,7 +2,18 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <a href="@Url.GenerateProtectedUrl(ViewContext, "Detail", "Home", new { plate = "06BEU013", customerId = 355432, tcNumber = "22455214522" }, 3)" class="btn btn-primary">
+            Süreli - Şifrelenmiş Get İsteği
+        </a>
+    </div>
+    <div class="col-md-4">
+        <a href="@Url.GenerateProtectedUrl(ViewContext, "Detail", "Home", new { plate = "06BEU013", customerId = 355432, tcNumber = "22455214522" })" class="btn btn-primary">
+            Süresiz - Şifrelenmiş Get İsteği
+        </a>
+    </div>
+    <div class="col-md-4">
+        <a href="/Home/Detail?customerId=3" class="btn btn-danger">Şifresiz Get İsteği</a>
+    </div>
 </div>

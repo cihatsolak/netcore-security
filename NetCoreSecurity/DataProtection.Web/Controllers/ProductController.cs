@@ -1,4 +1,5 @@
-﻿using DataProtection.Web.Models;
+﻿using DataProtection.Web.Models.Context;
+using DataProtection.Web.Models.Entities;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,22 +9,23 @@ using System.Threading.Tasks;
 
 namespace DataProtection.Web.Controllers
 {
-    public class ProductsController : Controller
+    public class ProductController : Controller
     {
         private readonly AppDbContext _context;
         private readonly IDataProtector _dataProtector; //Veriyi şifrelemek için kullanırız.
         private readonly ITimeLimitedDataProtector _timeLimitedDataProtector; //Şifrelediğimiz veriye ömür biçmek için kullanırız.
 
-        public ProductsController(AppDbContext context, IDataProtectionProvider dataProtectionProvider) //IDataProtectionProvider ile IDataProtector'ı dolduracağız.
+        public ProductController(AppDbContext context, IDataProtectionProvider dataProtectionProvider) //IDataProtectionProvider ile IDataProtector'ı dolduracağız.
         {
             _context = context;
-
             /* 
              * CreateProtector içerisinde vereceğim isim Unique'dir. DataProtector'ları birbirinden ayırmak için kullanırız.
              * Farklı bir controller içerisinde de DataProtector kullanabileceğimizden ötürü, bunları birbirinden ayırmak mahiyetinde isimlendirme yapıyoruz.
              */
-            _dataProtector = dataProtectionProvider.CreateProtector(nameof(ProductsController));
+            _dataProtector = dataProtectionProvider.CreateProtector(nameof(ProductController));
             _timeLimitedDataProtector = _dataProtector.ToTimeLimitedDataProtector(); //Şifrelediğimiz veriye ömür biçmek için kullanırız.
+
+            //_dataProtector = dataProtectionProvider.CreateProtector(GetType().FullName); | GetType().FullName ile otomatik olarak da isimlendirebiliriz.
         }
 
         // GET: Products

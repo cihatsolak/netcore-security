@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DataProtection.Web.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 
-namespace DataProtection.Web.Models
+namespace DataProtection.Web.Models.Context
 {
     public class AppDbContext : DbContext
     {
