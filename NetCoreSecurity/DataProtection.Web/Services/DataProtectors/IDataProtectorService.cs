@@ -17,7 +17,8 @@
         /// Veri Şifre Çözücü
         /// </summary>
         /// <param name="value">Şifrelenmiş veri</param>
+        /// <param name="isTimeLimited">Şifrelenmiş veriye bir süre verilmiş mi?</param>
         /// <returns>Şifresi çözülmüş veri</returns>
-        string Unprotect(string value);
+        string Unprotect(string value, bool isTimeLimited);
     }
 }

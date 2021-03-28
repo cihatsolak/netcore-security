@@ -53,7 +53,11 @@ namespace DataProtection.Web.Utilities
             string protectedQueryString = WebUtility.UrlEncode(protectedValue);
 
             string url = string.Concat("/", controllerName, "/", actionName, "?", Constants.QueryStringPrefix, "=", protectedQueryString);
-            return url;
+
+            if (0 >= minute)
+                return url;
+
+            return string.Concat(url, "&", Constants.TimeStringPrefix, "=", minute);
         }
     }
 }

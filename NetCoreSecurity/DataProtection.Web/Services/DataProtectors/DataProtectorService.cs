@@ -26,9 +26,7 @@ namespace DataProtection.Web.Services.DataProtectors
         public string Protect(string value, int minute = 0)
         {
             if (0 >= minute)
-            {
                 return _dataProtector.Protect(value);
-            }
 
             return _timeLimitedDataProtector.Protect(value, TimeSpan.FromMinutes(minute));
         }
@@ -37,10 +35,14 @@ namespace DataProtection.Web.Services.DataProtectors
         /// Veri Şifre Çözücü
         /// </summary>
         /// <param name="value">Şifrelenmiş veri</param>
+        /// <param name="isTimeLimited">Şifrelenmiş veriye bir süre verilmiş mi?</param>
         /// <returns>Şifresi çözülmüş veri</returns>
-        public string Unprotect(string value)
+        public string Unprotect(string value, bool isTimeLimited)
         {
-            return _dataProtector.Unprotect(value);
+            if (!isTimeLimited)
+                return _dataProtector.Unprotect(value);
+
+            return _timeLimitedDataProtector.Unprotect(value);
         }
     }
 }

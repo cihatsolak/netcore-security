@@ -25,8 +25,10 @@ namespace DataProtection.Web.Middlewares
         {
             if (httpContext.Request.Method == HttpMethod.Get.Method && httpContext.Request.Query.ContainsKey(Constants.QueryStringPrefix))
             {
+                bool isTimeLimited = httpContext.Request.Query.ContainsKey(Constants.TimeStringPrefix); //Query string'e expire minutes verilmiş mi?
+
                 string queryStrings = httpContext.Request.Query[Constants.QueryStringPrefix].ToString();
-                string unprotected = dataProtectorService.Unprotect(queryStrings);
+                string unprotected = dataProtectorService.Unprotect(queryStrings, isTimeLimited);
 
                 string urlDecode = WebUtility.UrlDecode(unprotected);
                 httpContext.Request.QueryString = QueryString.Create(QueryHelpers.ParseQuery(urlDecode));
