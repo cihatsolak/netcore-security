@@ -1,6 +1,6 @@
 using System;
 
-namespace DataProtection.Web.Models
+namespace DataProtection.Web.Models.ViewModels
 {
     public class ErrorViewModel
     {

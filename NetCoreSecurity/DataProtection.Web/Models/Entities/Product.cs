@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DataProtection.Web.Models
+namespace DataProtection.Web.Models.Entities
 {
     public class Product
     {

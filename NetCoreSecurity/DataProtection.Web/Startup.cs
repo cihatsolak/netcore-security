@@ -1,4 +1,6 @@
-using DataProtection.Web.Models;
+using DataProtection.Web.Middlewares;
+using DataProtection.Web.Models.Context;
+using DataProtection.Web.Services.DataProtectors;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -26,7 +28,8 @@ namespace DataProtection.Web
 
             services.AddControllersWithViews();
 
-            services.AddDataProtection(); //IDataProtector
+            services.AddDataProtection();
+            services.AddSingleton<IDataProtectorService, DataProtectorService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -35,20 +38,17 @@ namespace DataProtection.Web
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
 
-            app.UseStaticFiles();
             app.UseRouting();
-            app.UseAuthorization();
+            app.UseStaticFiles();
+
+            app.UseMiddleware<QueryStringMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Products}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
