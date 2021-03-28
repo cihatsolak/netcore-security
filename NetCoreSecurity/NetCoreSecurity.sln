@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataProtection.Web", "DataProtection.Web\DataProtection.Web.csproj", "{B406CD33-2787-4AD2-81AF-039BE4BE28A0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IPControl.Web", "IPControl.Web\IPControl.Web.csproj", "{4F0BD7E5-9A80-4A03-A1FD-2C17DB4077D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Security.Web", "DataProtection.Web\Security.Web.csproj", "{B406CD33-2787-4AD2-81AF-039BE4BE28A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +15,6 @@ Global
 		{B406CD33-2787-4AD2-81AF-039BE4BE28A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B406CD33-2787-4AD2-81AF-039BE4BE28A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B406CD33-2787-4AD2-81AF-039BE4BE28A0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4F0BD7E5-9A80-4A03-A1FD-2C17DB4077D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4F0BD7E5-9A80-4A03-A1FD-2C17DB4077D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4F0BD7E5-9A80-4A03-A1FD-2C17DB4077D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4F0BD7E5-9A80-4A03-A1FD-2C17DB4077D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

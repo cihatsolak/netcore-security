@@ -1,3 +1,5 @@
+using IPControl.Web.Middlewares;
+using IPControl.Web.Models.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +21,8 @@ namespace IPControl.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.Configure<IPListSettings>(Configuration.GetSection(nameof(IPListSettings)));
         }
 
         
@@ -34,13 +38,15 @@ namespace IPControl.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseMiddleware<IPSafeMiddleware>();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
 
             app.UseAuthorization();
-
+           
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Security.Web.Filters;
 
 namespace DataProtection.Web.Controllers
 {
@@ -15,6 +16,12 @@ namespace DataProtection.Web.Controllers
             ViewBag.CustomerId = customerId;
             ViewBag.TcNumber = tcNumber;
 
+            return View();
+        }
+
+        [ServiceFilter(typeof(CheckWhiteListFilter))]
+        public IActionResult IPControl()
+        {
             return View();
         }
     }

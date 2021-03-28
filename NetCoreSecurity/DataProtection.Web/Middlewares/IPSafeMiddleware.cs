@@ -1,12 +1,16 @@
-﻿using IPControl.Web.Models.Settings;
+﻿using DataProtection.Web.Models.Settings;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace IPControl.Web.Middlewares
+namespace DataProtection.Web.Middlewares
 {
+    /// <summary>
+    /// Her gelen isteği oluşturmuş olduğum whiteList veya blackList'e göre soruluyorum
+    /// Uygulama seviyesinde bir işlem
+    /// </summary>
     public class IPSafeMiddleware
     {
         //Gelen isteği yakalıyorum. (RequestDelegate)
