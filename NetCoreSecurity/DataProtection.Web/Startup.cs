@@ -30,6 +30,17 @@ namespace DataProtection.Web
 
             services.AddDataProtection();
             services.AddSingleton<IDataProtectorService, DataProtectorService>();
+
+
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(policy =>
+                {
+                    policy.AllowAnyOrigin(); //Hangi originden gelirse gelsin isteklere cevap ver.
+                    policy.AllowAnyHeader(); //Header'da ne olursa olsun api cevap versin.
+                    policy.AllowAnyMethod(); //Put, Post, Get, Delete, Patch hangi istek tipi gelirse gelsin, buna izin veriyoruz.
+                });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -41,6 +52,8 @@ namespace DataProtection.Web
 
             app.UseRouting();
             app.UseStaticFiles();
+
+            app.UseCors();
 
             app.UseMiddleware<QueryStringMiddleware>();
 
