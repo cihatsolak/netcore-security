@@ -4,6 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
     <UserSecretsId>06662790-023d-41f2-9414-444d45a6f155</UserSecretsId>
+    <AssemblyName>Security.Web</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
