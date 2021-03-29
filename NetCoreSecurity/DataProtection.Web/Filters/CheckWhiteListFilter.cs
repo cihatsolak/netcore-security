@@ -7,6 +7,9 @@ using System.Net;
 
 namespace Security.Web.Filters
 {
+    /// <summary>
+    /// IP Control filtresi
+    /// </summary>
     public class CheckWhiteListFilter : IActionFilter
     {
         private readonly IPListSettings _iPListSettings;

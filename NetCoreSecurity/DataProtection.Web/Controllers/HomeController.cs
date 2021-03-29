@@ -10,6 +10,13 @@ namespace DataProtection.Web.Controllers
             return View();
         }
 
+        /// <summary>
+        /// HTTP GET Yönteminde IDataProtector ile veriyi şifreyip çözdüğüm metot
+        /// </summary>
+        /// <param name="plate"></param>
+        /// <param name="customerId"></param>
+        /// <param name="tcNumber"></param>
+        /// <returns></returns>
         public IActionResult Detail(string plate, int customerId, string tcNumber)
         {
             ViewBag.Plate = plate;
@@ -19,6 +26,11 @@ namespace DataProtection.Web.Controllers
             return View();
         }
 
+
+        /// <summary>
+        /// IP control ettiğim Metot
+        /// </summary>
+        /// <returns></returns>
         [ServiceFilter(typeof(CheckWhiteListFilter))]
         public IActionResult IPControl()
         {
