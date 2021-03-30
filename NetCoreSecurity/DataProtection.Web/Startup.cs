@@ -102,7 +102,6 @@ namespace DataProtection.Web
 
             app.UseCors("AllowedSites"); //Hangi kuralın uygulanacağını middleware'e veerdiğimiz isimle belirleriz.
 
-            app.UseMiddleware<QueryStringMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
