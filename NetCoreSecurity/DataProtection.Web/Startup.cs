@@ -33,9 +33,10 @@ namespace DataProtection.Web
             services.AddControllersWithViews();
 
             services.AddDataProtection();
-            
             services.AddSingleton<IDataProtectorService, DataProtectorService>();
 
+            services.AddScoped(typeof(CheckWhiteListFilter));
+            services.Configure<IPListSettings>(Configuration.GetSection(nameof(IPListSettings)));
 
             services.AddCors(options =>
             {
@@ -93,7 +94,7 @@ namespace DataProtection.Web
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMiddleware<IPSafeMiddleware>(); //Ip Kontrol�
+            app.UseMiddleware<IPSafeMiddleware>(); //Ip Kontrolu
             app.UseMiddleware<QueryStringMiddleware>(); //DataProtector HTTP GET Query String
 
             app.UseRouting();
