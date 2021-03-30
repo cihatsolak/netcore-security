@@ -1,5 +1,6 @@
-using DataProtection.Web.Middlewares;
+ï»¿using DataProtection.Web.Middlewares;
 using DataProtection.Web.Models.Context;
+using DataProtection.Web.Models.Settings;
 using DataProtection.Web.Services.DataProtectors;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Security.Web.Filters;
 using Microsoft.Net.Http.Headers;
 
 namespace DataProtection.Web
@@ -31,12 +33,13 @@ namespace DataProtection.Web
             services.AddControllersWithViews();
 
             services.AddDataProtection();
+            
             services.AddSingleton<IDataProtectorService, DataProtectorService>();
 
 
             services.AddCors(options =>
             {
-                //Default - Herkese ve herþeye açýk cors tanýmlamasý
+                //Default - Herkese ve herÅŸeye aÃ§Ä±k cors tanÄ±mlamasÄ±
                 options.AddDefaultPolicy(policy =>
                 {
                     policy.AllowAnyOrigin(); //Hangi originden gelirse gelsin isteklere cevap ver.
@@ -44,36 +47,36 @@ namespace DataProtection.Web
                     policy.AllowAnyMethod(); //Put, Post, Get, Delete, Patch hangi istek tipi gelirse gelsin, buna izin veriyoruz.
                 });
 
-                //Özelleþtirilmiþ Cors : Ýzin verilen siteler
+                //Ã–zelleÅŸtirilmiÅŸ Cors : Ä°zin verilen siteler
                 options.AddPolicy("AllowedSites", policy =>
                 {
                     policy.WithOrigins("http://localhost:36020", "https://wwww.mysitem.com") //Sadece bu iki site adresinden gelen isteklere izin ver
-                          .AllowAnyHeader() //Herhangi bir header'ý olabilir
+                          .AllowAnyHeader() //Herhangi bir header'Ä± olabilir
                           .AllowAnyHeader(); //Herhangi bir metot olabilir
 
-                    policy.AllowCredentials(); //Kimlikle ilgili cookieleri kabul edip etmeyeceðimle  ilgili izinler
+                    policy.AllowCredentials(); //Kimlikle ilgili cookieleri kabul edip etmeyeceÄŸimle  ilgili izinler
                 });
 
-                //Özelleþtirilmiþ Cors : Ýzin verilen siteler 2
+                //Ã–zelleÅŸtirilmiÅŸ Cors : Ä°zin verilen siteler 2
                 options.AddPolicy("AllowedSites2", policy =>
                 {
                     policy.WithOrigins("https://wwww.mysitem.com") //Bu siteden gelene izin ver
-                          .WithHeaders(HeaderNames.ContentType, "x-customer-header"); //Hangi headerlarý kabul ediceðim?
+                          .WithHeaders(HeaderNames.ContentType, "x-customer-header"); //Hangi headerlarÄ± kabul ediceÄŸim?
                 });
 
-                //Özelleþtirilmiþ Cors : Ýzin verilen siteler 2
+                //Ã–zelleÅŸtirilmiÅŸ Cors : Ä°zin verilen siteler 2
                 options.AddPolicy("AllowedSites3", policy =>
                 {
-                    //domain mysite.com olacak, ve bu domainin tüm subdomainlerinden gelen isteði kabul et. -> deneme.mysite.com
+                    //domain mysite.com olacak, ve bu domainin tÃ¼m subdomainlerinden gelen isteÄŸi kabul et. -> deneme.mysite.com
                     policy.WithOrigins("https://*.mysitem.com").SetIsOriginAllowedToAllowWildcardSubdomains()
                           .AllowAnyHeader() //Herhangi bir header
                           .AllowAnyMethod(); //Herhangi bir metot
                 });
 
-                //Özelleþtirilmiþ Cors : Ýzin verilen siteler 2
+                //Ã–zelleÅŸtirilmiÅŸ Cors : Ä°zin verilen siteler 2
                 options.AddPolicy("AllowedSites4", policy =>
                 {
-                    //domain www.example.com domaininden gelen isteði kabul et.
+                    //domain www.example.com domaininden gelen isteÄŸi kabul et.
                     policy.WithOrigins("https://www.example.com")
                           .WithMethods(HttpMethods.Get, HttpMethods.Post) //Sadece GET, POST isteklerine izin ver.
                           .AllowAnyHeader() //Herhangi bir header
@@ -90,10 +93,13 @@ namespace DataProtection.Web
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseMiddleware<IPSafeMiddleware>(); //Ip Kontrolï¿½
+            app.UseMiddleware<QueryStringMiddleware>(); //DataProtector HTTP GET Query String
+
             app.UseRouting();
             app.UseStaticFiles();
 
-            app.UseCors("AllowedSites"); //Hangi kuralýn uygulanacaðýný middleware'e veerdiðimiz isimle belirleriz.
+            app.UseCors("AllowedSites"); //Hangi kuralÄ±n uygulanacaÄŸÄ±nÄ± middleware'e veerdiÄŸimiz isimle belirleriz.
 
             app.UseMiddleware<QueryStringMiddleware>();
 
