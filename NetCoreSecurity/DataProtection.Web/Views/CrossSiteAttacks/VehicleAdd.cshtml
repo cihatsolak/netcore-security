@@ -1,0 +1,49 @@
+﻿@model VehicleAddViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>VehicleAdd</title>
+</head>
+<body>
+
+    <h4>VehicleAddViewModel</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="VehicleAdd">
+                <div class="form-group">
+                    <label asp-for="Year" class="control-label"></label>
+                    <input asp-for="Year" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Plate" class="control-label"></label>
+                    <input asp-for="Plate" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Color" class="control-label"></label>
+                    <textarea asp-for="Color" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Araç Ekle" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <h4>Year: @ViewBag.Year</h4>
+            <h4>Color: @Html.Raw(ViewBag.Color);</h4>
+            <h4>Plate: @ViewBag.Plate</h4>
+        </div>
+    </div>
+
+</body>
+</html>
