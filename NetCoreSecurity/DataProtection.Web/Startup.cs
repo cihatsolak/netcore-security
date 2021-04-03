@@ -99,6 +99,9 @@ namespace DataProtection.Web
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseHttpsRedirection(); //Http üzerinden gelen istekleri https'e yönlendiriyorum.
+            app.UseHsts(); //Tarayıcıya bana göndereceğin request'leri https üzerinden gönder diyorum.
+
             app.UseMiddleware<IPSafeMiddleware>(); //Ip Kontrolu
             app.UseMiddleware<QueryStringMiddleware>(); //DataProtector HTTP GET Query String
 
