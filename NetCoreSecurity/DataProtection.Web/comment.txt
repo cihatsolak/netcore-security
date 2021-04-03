@@ -1,0 +1,5 @@
+Kalem--deneme
+araba--deneme2
+--<script>alert("Hello")</script>
+<b>Güzel yorum</b>
+örnek--<script>alert(document.cookie)</script>

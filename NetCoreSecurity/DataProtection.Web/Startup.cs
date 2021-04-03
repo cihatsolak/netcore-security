@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Security.Web.Filters;
 using Microsoft.Net.Http.Headers;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DataProtection.Web
 {
@@ -30,7 +31,11 @@ namespace DataProtection.Web
                 options.UseSqlServer(Configuration.GetConnectionString("Default"));
             });
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(options =>
+            {
+                //Uygulama seviyesinde her post metodunda token'ı kontrol edecektir.
+                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            });
 
             services.AddDataProtection();
             services.AddSingleton<IDataProtectorService, DataProtectorService>();
