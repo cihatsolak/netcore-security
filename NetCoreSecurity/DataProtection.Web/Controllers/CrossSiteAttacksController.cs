@@ -4,6 +4,7 @@ using System.Text.Encodings.Web;
 
 namespace Security.Web.Controllers
 {
+    [AutoValidateAntiforgeryToken]  //Controller seviyesinde token'ı kontrol etmek istersem
     public class CrossSiteAttacksController : Controller
     {
         /// <summary>
@@ -40,6 +41,7 @@ namespace Security.Web.Controllers
         }
 
         [HttpPost]
+        [IgnoreAntiforgeryToken]
         public IActionResult ReflectedXSS(VehicleAddViewModel vehicleAddViewModel)
         {
             ViewBag.Year = vehicleAddViewModel.Year;
@@ -60,7 +62,13 @@ namespace Security.Web.Controllers
             return View();
         }
 
+        /// <summary>
+        /// CSRF - Siteler arası hırsızlığı engellemek için [ValidateAntiForgeryToken] kullanıyorum.
+        /// </summary>
+        /// <param name="commentViewModel"></param>
+        /// <returns></returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult StoredXSS(CommentViewModel commentViewModel)
         {
             string text = string.Concat(commentViewModel.Name, "--", commentViewModel.Comment, "\n");
@@ -82,5 +90,6 @@ namespace Security.Web.Controllers
             
             return View();
         }
+
     }
 }
