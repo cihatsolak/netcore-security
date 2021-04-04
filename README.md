@@ -4,7 +4,7 @@
 
 How we take precautions against attacks from malicious users is exemplified. Net core projects have default security measures. We can use the IDataprotector interface to encrypt data. We must also be protected against xss attacks such as Reflected or Stored. For this, we must pay attention to the use of Html.Raw(). For more information, coding was done in the project with all the details.
 
-If we list the topics of the project
+the topics covered by the project
 * IDataProtector
 * Cors
 * Secret.json
